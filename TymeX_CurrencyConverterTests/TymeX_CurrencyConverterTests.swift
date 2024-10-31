@@ -1,10 +1,3 @@
-//
-//  TymeX_CurrencyConverterTests.swift
-//  TymeX_CurrencyConverterTests
-//
-//  Created by Trí Lai on 31/10/24.
-//
-
 import Testing
 @testable import TymeX_CurrencyConverter
 

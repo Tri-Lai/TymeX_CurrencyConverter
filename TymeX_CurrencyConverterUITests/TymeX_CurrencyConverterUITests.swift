@@ -1,10 +1,3 @@
-//
-//  TymeX_CurrencyConverterUITests.swift
-//  TymeX_CurrencyConverterUITests
-//
-//  Created by Trí Lai on 31/10/24.
-//
-
 import XCTest
 
 final class TymeX_CurrencyConverterUITests: XCTestCase {
