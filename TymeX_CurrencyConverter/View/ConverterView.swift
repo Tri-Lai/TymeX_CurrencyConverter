@@ -7,13 +7,38 @@ struct CurrencyConverterView: View {
     @State private var amount: String = "1000.00"
     @State private var convertedAmount: String = "736.70"
     @State private var exchangeRate: String = "0.7367"
+    @State private var selectedCurrency = "EUR"
+
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
-    // List all currencies for picker
+    // List all currencies and their flag
     let currencies: [String] = [
-        "DZD", "AOA", "BWP", "EGP", "KES", "MAD", "NGN", "ZAR", "SDG", "TZS", "UGX", "AFN", "AMD", "AZN", "BHD", "BDT", "CNY", "INR", "IDR", "IRR", "ILS", "JPY", "JOD", "KZT", "KRW", "KWD", "MYR", "OMR", "PKR", "QAR", "SAR", "SGD", "SYP", "THB", "TMT", "AED", "VND", "ALL", "EUR", "GBP", "BGN", "HRK", "CZK", "DKK", "HUF", "ISK", "NOK", "PLN", "RON", "RUB", "RSD", "CHF", "UAH", "CAD", "CRC", "CUP", "DOP", "HNL", "MXN", "NIO", "USD", "AUD", "FJD", "NZD", "PGK", "WST", "AUD", "TOP", "ARS", "BRL", "CLP", "COP", "USD", "PYG", "PEN", "SRD", "UYU", "VES","BTC", "ETH", "XRP", "LTC", "ADA", "BNB", "SOL"
+            "DZD", "AOA", "BWP", "EGP", "KES", "MAD", "NGN", "ZAR", "SDG", "TZS", "UGX", "AFN", "AMD", "AZN", "BHD", "BDT", "CNY", "INR", "IDR", "IRR", "ILS", "JPY", "JOD", "KZT", "KRW", "KWD", "MYR", "OMR", "PKR", "QAR", "SAR", "SGD", "SYP", "THB", "TMT", "AED", "VND", "ALL", "EUR", "GBP", "BGN", "HRK", "CZK", "DKK", "HUF", "ISK", "NOK", "PLN", "RON", "RUB", "RSD", "CHF", "UAH", "CAD", "CRC", "CUP", "DOP", "HNL", "MXN", "NIO", "USD", "AUD", "FJD", "NZD", "PGK", "WST", "AUD", "TOP", "ARS", "BRL", "CLP", "COP", "USD", "PYG", "PEN", "SRD", "UYU", "VES"
+        ]
+    
+    let currencyFlags: [String: String] = [
+            "DZD": "🇩🇿", "AOA": "🇦🇴", "BWP": "🇧🇼", "EGP": "🇪🇬", "KES": "🇰🇪",
+            "MAD": "🇲🇦", "NGN": "🇳🇬", "ZAR": "🇿🇦", "SDG": "🇸🇩", "TZS": "🇹🇿",
+            "UGX": "🇺🇬", "AFN": "🇦🇫", "AMD": "🇦🇲", "AZN": "🇦🇿", "BHD": "🇧🇭",
+            "CNY": "🇨🇳", "INR": "🇮🇳", "IDR": "🇮🇩", "IRR": "🇮🇷", "ILS": "🇮🇱",
+            "JPY": "🇯🇵", "JOD": "🇯🇴", "KZT": "🇰🇿", "KRW": "🇰🇷", "KWD": "🇰🇼",
+            "MYR": "🇲🇾", "OMR": "🇴🇲", "PKR": "🇵🇰", "QAR": "🇶🇦", "SAR": "🇸🇦",
+            "SGD": "🇸🇬", "SYP": "🇸🇾", "THB": "🇹🇭", "TMT": "🇹🇲", "VND": "🇻🇳",
+            "ALL": "🇦🇱", "EUR": "🇪🇺", "GBP": "🇬🇧", "BGN": "🇧🇬", "HRK": "🇭🇷",
+            "CZK": "🇨🇿", "DKK": "🇩🇰", "HUF": "🇭🇺", "ISK": "🇮🇸", "NOK": "🇳🇴",
+            "PLN": "🇵🇱", "RON": "🇷🇴", "RUB": "🇷🇺", "RSD": "🇷🇸", "CHF": "🇨🇭",
+            "UAH": "🇺🇦", "CAD": "🇨🇦", "CRC": "🇨🇷", "CUP": "🇨🇺", "DOP": "🇩🇴",
+            "MXN": "🇲🇽", "NIO": "🇳🇮", "USD": "🇺🇸", "BDT": "🇧🇩", "AED": "🇦🇪",
+            "AUD": "🇦🇺", "FJD": "🇫🇯", "NZD": "🇳🇿", "PGK": "🇵🇬", "WST": "🇼🇸",
+            "ARS": "🇦🇷", "BRL": "🇧🇷", "CLP": "🇨🇱", "COP": "🇨🇴", "PYG": "🇵🇾",
+            "PEN": "🇵🇪", "SRD": "🇸🇷", "UYU": "🇺🇾", "VES": "🇻🇪", "HNL": "🇭🇳",
+            "TOP": "🇹🇴"
     ]
-
+    
+//    var currencies: [String] {
+//        Array(currencyFlags.keys).sorted()
+//    }
+    
     var body: some View {
         
         // Whole page layout
@@ -21,11 +46,6 @@ struct CurrencyConverterView: View {
             Text("Currency Converter")
                 .font(.title)
                 .fontWeight(.bold)
-            
-            Text("Check live rates, set rate alerts, receive notifications and more.")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
             
             VStack(spacing: 20) {
                 // Input Section
@@ -35,16 +55,19 @@ struct CurrencyConverterView: View {
                         .foregroundColor(.gray)
                     
                     HStack {
-                        // Currency Picker
                         Picker("From Currency", selection: $viewModel.fromCurrency) {
                             ForEach(currencies, id: \.self) { currency in
-                                Text(currency)
+                                HStack {
+                                    Text((currencyFlags[currency] ?? "🏳️") + " " + currency)
+                                }
+                                .tag(currency)
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
                         .onChange(of: viewModel.fromCurrency) { _ in
                             viewModel.convertCurrency()
                         }
+
                         
                         Spacer()
                         
@@ -70,10 +93,11 @@ struct CurrencyConverterView: View {
                         .foregroundColor(.gray)
                     
                     HStack {
-                        // Currency Picker
-                        Picker("To Currency", selection: $toCurrency) {
+                        Picker("To Currency", selection: $viewModel.toCurrency) {
                             ForEach(currencies, id: \.self) { currency in
-                                Text(currency)
+                                HStack {
+                                    Text((currencyFlags[currency] ?? "🏳️") + " " + currency)
+                                }
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
