@@ -10,9 +10,7 @@ struct CurrencyConverterView: View {
     @State private var exchangeRate: String = "0.7367"
     @State private var selectedCurrency = "EUR"
         
-
-
-    // Define view model
+   // Define view model
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
     // List all currencies and their flag
@@ -140,8 +138,6 @@ struct CurrencyConverterView: View {
             Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
         }
     }
-    
-
 }
 
 struct CurrencyConverterView_Previews: PreviewProvider {

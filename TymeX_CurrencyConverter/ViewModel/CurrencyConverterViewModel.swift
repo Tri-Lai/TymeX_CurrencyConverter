@@ -46,7 +46,7 @@ class CurrencyConverterViewModel: ObservableObject {
         }
 
         // Define URL
-        let urlString = "https://api.exchangeratesapi.io/v1/latest?access_key=c6fffaed5cfc927a5aaad56bc316c2c6"
+        let urlString = "https://api.exchangeratesapi.io/v1/latest?access_key=8b1d5a61852d943c6668b60dff3e4860"
         
         guard let url = URL(string: urlString) else {
             DispatchQueue.main.async {
