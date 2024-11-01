@@ -1,7 +1,7 @@
 import Foundation
 
 
-struct CurrencyResponse: Codable {
+struct CurrencyResponse: Decodable {
     let success: Bool
     let timestamp: Int
     let base: String

@@ -7,6 +7,7 @@ struct CurrencyConverterView: View {
     @State private var amount: String = "1000.00"
     @State private var convertedAmount: String = "736.70"
     @State private var exchangeRate: String = "0.7367"
+    @StateObject private var viewModel = CurrencyConverterViewModel()
     
     // List all currencies for picker
     let currencies: [String] = [
@@ -35,22 +36,28 @@ struct CurrencyConverterView: View {
                     
                     HStack {
                         // Currency Picker
-                        Picker("From Currency", selection: $fromCurrency) {
+                        Picker("From Currency", selection: $viewModel.fromCurrency) {
                             ForEach(currencies, id: \.self) { currency in
                                 Text(currency)
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
+                        .onChange(of: viewModel.fromCurrency) { _ in
+                            viewModel.convertCurrency()
+                        }
                         
                         Spacer()
                         
                         // Amount TextField
-                        TextField("Amount", text: $amount)
-                            .keyboardType(.numberPad)
+                        TextField("Amount", text: $viewModel.amount)
+                            .keyboardType(.decimalPad)
                             .frame(width: 100, height: 40)
                             .multilineTextAlignment(.center)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
+                            .onChange(of: viewModel.amount) { _ in
+                                viewModel.convertCurrency()
+                            }
                     } // HStack: Amount section
                 } // VStack: Input box
                 
@@ -70,11 +77,14 @@ struct CurrencyConverterView: View {
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
+                        .onChange(of: viewModel.toCurrency) { _ in
+                            viewModel.convertCurrency()
+                        }
                         
                         Spacer()
                         
                         // Converted Amount Text
-                        Text(convertedAmount)
+                        Text(viewModel.convertedAmount)
                             .frame(width: 100, height: 40)
                             .multilineTextAlignment(.center)
                             .background(Color(.systemGray6))
@@ -93,7 +103,7 @@ struct CurrencyConverterView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                 
-                Text("1 \(fromCurrency) = \(exchangeRate) \(toCurrency)")
+                Text("1 \(viewModel.fromCurrency) = \(viewModel.exchangeRate) \(viewModel.toCurrency)")
                     .font(.subheadline)
                     .fontWeight(.semibold)
             } // VStack: Exchange rate estimation layout
