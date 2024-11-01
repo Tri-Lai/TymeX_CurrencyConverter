@@ -12,11 +12,19 @@ class CurrencyConverterViewModel: ObservableObject {
 
     private var cancellable: AnyCancellable?
 
-    // Function to convert currency with corresponding amount
+    // FUNCTION: Convert currency with corresponding amount
     func convertCurrency() {
         
+        // Check invalid input at first
         guard let amountValue = Double(amount) else {
-            convertedAmount = "Invalid amount"
+            convertedAmount = "Invalid"
+            return
+        }
+        
+        if amountValue <= 0 {
+            DispatchQueue.main.async {
+                self.errorMessage = "Amount should be greater than zero"
+            }
             return
         }
 
@@ -30,39 +38,7 @@ class CurrencyConverterViewModel: ObservableObject {
             return
         }
         
-       
-        // Fetch data from API
-
-//            let (data, response) = try await URLSession.shared.data(from: url)
-//            
-//            // Check for HTTP error 403: Missing parameters
-//            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 403 {
-//                DispatchQueue.main.async {
-//                    self.errorMessage = "Error: Check the API key and parameters."
-//                }
-//                return
-//            }
-//
-//            // Mapping JSON to Currency model
-//            let currencyResponse = try JSONDecoder().decode(CurrencyResponse.self, from: data)
-//            
-//            // Check both 'from' and 'to' currencies exist
-//            guard let fromRate = currencyResponse.rates[from],
-//                  let toRate = currencyResponse.rates[to] else {
-//                DispatchQueue.main.async {
-//                    self.errorMessage = "Currency not supported."
-//                }
-//                return
-//            }
-//            
-//            // Calculate the converted amount
-//            let convertedAmount = amount * toRate / fromRate;
-//            
-//            DispatchQueue.main.async {
-//                self.conversionResult = convertedAmount
-//                self.errorMessage = nil
-//            }
-            
+        // Calling API for currency data
         cancellable = URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .decode(type: CurrencyResponse.self, decoder: JSONDecoder())
@@ -76,11 +52,12 @@ class CurrencyConverterViewModel: ObservableObject {
             }, receiveValue: { [weak self] response in
                 self?.updateConversion(response: response, amount: amountValue)
             })
-            
-        
     }
     
+    // FUNCTION: Convert to desired currency with corresponding amount
     private func updateConversion(response: CurrencyResponse, amount: Double) {
+        
+        // Unwrapping currency rates and calculating currency
         if let fromRate = response.rates[fromCurrency],
            let toRate = response.rates[toCurrency] {
             let rate = toRate / fromRate

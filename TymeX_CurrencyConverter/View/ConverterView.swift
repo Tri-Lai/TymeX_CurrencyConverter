@@ -2,13 +2,19 @@ import SwiftUI
 
 
 struct CurrencyConverterView: View {
+    // Define main variables
     @State private var fromCurrency: String = "EUR"
     @State private var toCurrency: String = "USD"
     @State private var amount: String = "1000.00"
     @State private var convertedAmount: String = "736.70"
     @State private var exchangeRate: String = "0.7367"
     @State private var selectedCurrency = "EUR"
+        
+    // Alert variable
+    @State public var showAlert: Bool = false
+    @State public var alertMessage: String = ""
 
+    // Define view model
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
     // List all currencies and their flag
@@ -34,10 +40,6 @@ struct CurrencyConverterView: View {
             "PEN": "🇵🇪", "SRD": "🇸🇷", "UYU": "🇺🇾", "VES": "🇻🇪", "HNL": "🇭🇳",
             "TOP": "🇹🇴"
     ]
-    
-//    var currencies: [String] {
-//        Array(currencyFlags.keys).sorted()
-//    }
     
     var body: some View {
         
@@ -78,7 +80,8 @@ struct CurrencyConverterView: View {
                             .multilineTextAlignment(.center)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            .onChange(of: viewModel.amount) { _ in
+                            .onChange(of: viewModel.amount) { amountValue in
+                                validateAmount(amountValue)
                                 viewModel.convertCurrency()
                             }
                     } // HStack: Amount section
@@ -136,6 +139,22 @@ struct CurrencyConverterView: View {
         } // VStack: Whole view layout
         .padding()
         .background(Color("background"))
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    // Validate input
+    public func validateAmount(_ input: String) {
+        if let amountValue = Double(input) {
+            if amountValue <= 0 {
+                alertMessage = "Please enter a positive amount."
+                showAlert = true
+            }
+        } else {
+            alertMessage = "Invalid input. Please enter a valid number."
+            showAlert = true
+        }
     }
 }
 
