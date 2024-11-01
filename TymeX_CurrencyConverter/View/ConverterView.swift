@@ -10,9 +10,7 @@ struct CurrencyConverterView: View {
     @State private var exchangeRate: String = "0.7367"
     @State private var selectedCurrency = "EUR"
         
-    // Alert variable
-    @State public var showAlert: Bool = false
-    @State public var alertMessage: String = ""
+
 
     // Define view model
     @StateObject private var viewModel = CurrencyConverterViewModel()
@@ -81,7 +79,6 @@ struct CurrencyConverterView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                             .onChange(of: viewModel.amount) { amountValue in
-                                validateAmount(amountValue)
                                 viewModel.convertCurrency()
                             }
                     } // HStack: Amount section
@@ -139,23 +136,12 @@ struct CurrencyConverterView: View {
         } // VStack: Whole view layout
         .padding()
         .background(Color("background"))
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        .alert(isPresented: $viewModel.showAlert) {
+            Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
         }
     }
     
-    // Validate input
-    public func validateAmount(_ input: String) {
-        if let amountValue = Double(input) {
-            if amountValue <= 0 {
-                alertMessage = "Please enter a positive amount."
-                showAlert = true
-            }
-        } else {
-            alertMessage = "Invalid input. Please enter a valid number."
-            showAlert = true
-        }
-    }
+
 }
 
 struct CurrencyConverterView_Previews: PreviewProvider {

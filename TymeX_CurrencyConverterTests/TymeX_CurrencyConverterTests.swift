@@ -5,12 +5,12 @@ import XCTest
 
 class CurrencyConverterViewTests: XCTestCase {
     
-    var viewModel: CurrencyConverterView!
+    var viewModel: CurrencyConverterViewModel!
     
     // Set up View before testing
     override func setUp() {
         super.setUp()
-        viewModel = CurrencyConverterView()
+        viewModel = CurrencyConverterViewModel()
     }
     
     // Clean up instance after each test
@@ -29,10 +29,10 @@ class CurrencyConverterViewTests: XCTestCase {
     // Test wrong input handler
     func testNegativeAmountInput() {
         // Test with a negative amount
-        let negativeAmount = "-1000.00"
+        let negativeAmount = "-1000"
         viewModel.validateAmount(negativeAmount)
         XCTAssertTrue(viewModel.showAlert, "The alert should be shown for negative input")
-        XCTAssertEqual(viewModel.alertMessage, "Please enter a positive amount.", "Alert message should be about positive amount")
+        XCTAssertEqual(viewModel.alertMessage, "Please enter a positive amount.")
     }
 
     // Test zero amount provided

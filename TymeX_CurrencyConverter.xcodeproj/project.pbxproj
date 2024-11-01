@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		84ADF6CB2CD4D79400BB593F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 84ADF6CA2CD4D78D00BB593F /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		84187F972CD3BD0900FEA337 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		84187F862CD3BD0600FEA337 /* TymeX_CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TymeX_CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84187F962CD3BD0900FEA337 /* TymeX_CurrencyConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TymeX_CurrencyConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84187FA02CD3BD0900FEA337 /* TymeX_CurrencyConverterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TymeX_CurrencyConverterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84ADF6CA2CD4D78D00BB593F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		84187F7D2CD3BD0600FEA337 = {
 			isa = PBXGroup;
 			children = (
+				84ADF6CA2CD4D78D00BB593F /* README.md */,
 				84187F882CD3BD0600FEA337 /* TymeX_CurrencyConverter */,
 				84187F992CD3BD0900FEA337 /* TymeX_CurrencyConverterTests */,
 				84187FA32CD3BD0900FEA337 /* TymeX_CurrencyConverterUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84ADF6CB2CD4D79400BB593F /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

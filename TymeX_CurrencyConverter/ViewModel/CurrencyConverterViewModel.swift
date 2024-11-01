@@ -9,9 +9,26 @@ class CurrencyConverterViewModel: ObservableObject {
     @Published var amount: String = "1000.00"
     @Published var convertedAmount: String = ""
     @Published var exchangeRate: String = ""
+    
+    // Alert variable
+    @Published public var showAlert: Bool = false
+    @Published public var alertMessage: String = ""
 
     private var cancellable: AnyCancellable?
 
+    // FUNCTION: Validate input
+    public func validateAmount(_ input: String) {        
+        if let amountValue = Double(input) {
+            if amountValue <= 0 {
+                alertMessage = "Please enter a positive amount."
+                showAlert = true
+            }
+        } else {
+            alertMessage = "Invalid input. Please enter a valid number."
+            showAlert = true
+        }
+    }
+    
     // FUNCTION: Convert currency with corresponding amount
     func convertCurrency() {
         
