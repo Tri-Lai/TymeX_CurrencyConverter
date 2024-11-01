@@ -29,8 +29,9 @@ To run the Currency Converter app on your local machine, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/currency-converter-app.git
-   cd currency-converter-app```
+   git clone https://github.com/Tri-Lai/TymeX_CurrencyConverter.git
+   cd TymeX_CurrencyConverter
+   ```
 
 2. **Open the Project**
 
